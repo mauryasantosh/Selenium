@@ -9,6 +9,7 @@
 hs_err_pid*
 ##testng
 test/
+test-output/
 ##########################
 ## Maven
 ##########################
