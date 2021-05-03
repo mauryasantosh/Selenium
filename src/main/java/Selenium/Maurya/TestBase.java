@@ -22,7 +22,7 @@ public class TestBase {
 		driver.get("https://www.worldometers.info/world-population/");		
 		long startTime = System.currentTimeMillis();
 		int count=1;
-		while((System.currentTimeMillis()-startTime)<20000)
+		while((System.currentTimeMillis()-startTime)<1)
 		{ 	System.out.print("PrintCount "+count++);
 			System.out.print(" | Current World Population "+driver.findElement(By.xpath("//div[@class='maincounter-number']")).getText());
 			System.out.print(" | Births today "+driver.findElement(By.xpath("//span[@rel='births_today']")).getText());
