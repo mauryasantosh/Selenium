@@ -10,6 +10,11 @@ import Pojo.Location;
 import Pojo.Place;
 import Selenium.Maurya.Files.Payload;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 
 public class MapAPI {
 @Test
@@ -31,17 +36,18 @@ public void AddTest()
 	String[] types= {"shop","gym"};
 	place.setTypes(Arrays.asList(types));
 	
-	 RestAssured.baseURI ="https://rahulshettyacademy.com/";	  
-	 System.out.println(place);
-	  String res=
-			  given()
-			  .queryParam("key","qaclick123")
-			  .header("Content-Type","application/json")
-			  .body(place)
-			  
-			  .when().post("maps/api/place/add/json")
-			  
-			  .then().assertThat().statusCode(200).body("scope",equalTo("APP")).header("server","Apache/2.4.18 (Ubuntu)").extract().response().asString();
+	RequestSpecification rsf= new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com/").addQueryParam("key","qaclick123")
+							.addHeader("Content-Type","application/json").setContentType(ContentType.JSON).build();
+	 
+	RequestSpecification req= given().spec(rsf).body(place);
+	
+	ResponseSpecification resf= new ResponseSpecBuilder().expectStatusCode(200).expectHeader("server","Apache/2.4.18 (Ubuntu)").build();
+	
+	String res=
+			 	req.
+			 	when().post("maps/api/place/add/json")			  
+			 			.then().spec(resf)
+			 			.extract().asString();
 	  
 	  System.out.println(res);
 
